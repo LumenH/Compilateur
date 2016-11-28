@@ -1,0 +1,29 @@
+<programme name="Notre splendide programme">
+
+  <function name="main" args="argc, argv[]" return="void">
+
+    <variable name="toto" value="12" type="Integer"/>
+
+    <for iterator="toto" condition="toto = 0" step="1">
+
+      <if condition="toto == 0">
+        <variable name ="tutu value="FuncTiti" withArg="12, 13"/>
+      </if>
+      <else>
+        <variable name="truc" value="toto+1" type="integer"/>
+      </else>
+
+      <function name="print">
+        Ma variable a print: <variable name="truc">
+      </function>
+
+    </for>
+
+  </function>
+
+  <function name="FuncTiti" args="param1, param2">
+      <variable name="retValue "type="Integer" value="param1 + param2"/>
+      <return varaible="retValue"/>
+  </function>
+
+</programme>
