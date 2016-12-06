@@ -2,16 +2,16 @@
 
   <function name='main' args='argc, argv[]' return='void'>
 
-    <variable name='toto' value='12' type='Integer'/>
+    <variable name='toto' value='12' type='integer'/>
 
     <for iterator='toto' condition='toto = 0' step='1'>
 
       <if condition='toto == 0'>
-        <variable name ='tutu'>
-		<callFunction name='FuncTiti' args='1, 2' varRet='tutu'/>
+          <variable name ='tutu'>
+		      <callFunction name='FuncTiti' args='1, 2' varRet='tutu'/>
       </if>
       <else>
-        <variable name='truc' value='toto+1' type='integer'/>
+          <variable name='truc' value='toto+1' type='integer'/>
       </else>
 
       <callFunction name='print' args='"Ma varialbe a print: * ", tutu'/>
@@ -20,7 +20,7 @@
 
   </function>
 
-  <function name='FuncTiti' args='param1, param2'>
+  <function name='FuncTiti' args='param1, param2' return="integer">
       <variable name='retValue 'type='Integer' value='param1 + param2'/>
       <return varaible='retValue'/>
   </function>
