@@ -20,6 +20,7 @@ Le but est de créer un langage à balise qui peut contenir des boucles, des var
 * Incorporer les variables dans le langage. (Faire les changements nécessaires pour que tout fonctionne)
 * Incorporer les conditions dans le langage.
 * Incorporer les boucles dans le langage.
+*	Contrôler que les types soient cohérents.
 * Générer le fichier C.
 
 ###Secondaires
