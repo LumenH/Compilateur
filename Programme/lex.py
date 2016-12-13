@@ -36,9 +36,20 @@ tokens = (
     'GUILLEMET'
 )
 
+
+def t_CLOSE_GT(t):
+    r'[/]?>'
+    return t
+
+
 def t_IDENTIFIER(t):
-    r'<[A-Za-z_]\w*'
+    r'[A-Za-z_]\w*'
     if t.value in reserved_words:
         t.type = t.value.upper()
         print(t)
+    return t
+
+
+def t_OPEN_LT(t):
+    r'<'
     return t
