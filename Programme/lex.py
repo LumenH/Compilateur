@@ -34,5 +34,11 @@ tokens = (
     'CLOSE_GT',
     'APOSTROPHE',
     'GUILLEMET'
-
 )
+
+def t_IDENTIFIER(t):
+    r'<[A-Za-z_]\w*'
+    if t.value in reserved_words:
+        t.type = t.value.upper()
+        print(t)
+    return t
