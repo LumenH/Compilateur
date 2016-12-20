@@ -7,7 +7,7 @@ reserved_words = (
     'callFunction',
     'if'
     'function',
-    'programme',
+    'program',
     'name',
     'args',
     'return',

@@ -3,6 +3,20 @@ import AST
 from lex import tokens
 
 
+def p_programme_statement(p):
+    '''programme : statement'''
+    p[0] = AST.ProgramNode(p[1])
+
+def p_statement(p):
+    '''statement : assignation
+        | structure'''
+    p[0] = p[1]
+
+def p_statement_print(p):
+    '''statement : PRINT expression'''
+    p[0] = AST.PrintNode(p[2])
+
+
 def p_error(p):
     if p:
         print("Syntax error in line %d" % p.lineno)
@@ -10,6 +24,10 @@ def p_error(p):
     else:
         print("Sytax error: unexpected end of file!")
 
+precedence = (
+    ('left', 'ADD_OP'),
+    ('left', 'MUL_OP')
+)
 
 def parse(program):
     return yacc.parse(program)
