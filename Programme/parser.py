@@ -13,8 +13,23 @@ def p_statement(p):
     p[0] = p[1]
 
 def p_statement_print(p):
-    '''statement : PRINT expression'''
-    p[0] = AST.PrintNode(p[2])
+    '''statement : PRINT  args EGAL expression'''
+    p[0] = AST.PrintNode(p[4])
+
+
+def p_assign(p):
+    ''' assignation : IDENTIFIER EGAL expression '''
+    p[0] = AST.AssignNode([AST.TokenNode(p[1]), p[3]])
+
+
+def p_expression_ltgt(p):
+    '''expression : '<' expression '>' '''
+    p[0] = p[2]
+
+
+def p_minus(p):
+    ''' expression : ADD_OP expression %prec UMINUS'''
+    p[0] = AST.OpNode(p[1], [p[2]])
 
 
 def p_error(p):
@@ -28,21 +43,6 @@ precedence = (
     ('left', 'ADD_OP'),
     ('left', 'MUL_OP')
 )
-
-def p_assign(p):
-    ''' assignation : IDENTIFIER '=' expression '''
-    p[0] = AST.AssignNode([AST.TokenNode(p[1]), p[3]])
-
-
-def p_expression_ltgt(p):
-    '''expression : '<' expression '>' '''
-    p[0] = p[2]
-
-
-def p_minus(p):
-    ''' expression : ADD_OP expression %prec UMINUS'''
-    p[0] = AST.OpNode(p[1], [p[2]])
-
 
 def parse(program):
     return yacc.parse(program)
