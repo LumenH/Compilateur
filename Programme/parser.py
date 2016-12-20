@@ -11,6 +11,21 @@ def p_error(p):
         print("Sytax error: unexpected end of file!")
 
 
+def p_assign(p):
+    ''' assignation : IDENTIFIER '=' expression '''
+    p[0] = AST.AssignNode([AST.TokenNode(p[1]), p[3]])
+
+
+def p_expression_ltgt(p):
+    '''expression : '<' expression '>' '''
+    p[0] = p[2]
+
+
+def p_minus(p):
+    ''' expression : ADD_OP expression %prec UMINUS'''
+    p[0] = AST.OpNode(p[1], [p[2]])
+
+
 def parse(program):
     return yacc.parse(program)
 
