@@ -13,8 +13,8 @@ def p_statement(p):
     p[0] = p[1]
 
 def p_statement_print(p):
-    '''statement : PRINT  args EGAL expression'''
-    p[0] = AST.PrintNode(p[4])
+    '''statement : OPEN_LT callFunction EGAL \'print\' args EGAL \'expression\' CLOSE_GT'''
+    p[0] = AST.PrintNode(p[7])#dois-je compter les apostrophes
 
 
 def p_assign(p):
@@ -23,7 +23,7 @@ def p_assign(p):
 
 
 def p_expression_ltgt(p):
-    '''expression : '<' expression '>' '''
+    '''expression : OPEN_LT expression CLOSE_GT '''
     p[0] = p[2]
 
 
