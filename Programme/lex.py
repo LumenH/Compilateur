@@ -50,7 +50,7 @@ def t_IDENTIFIER(t):
 
 
 def t_OPEN_LT(t):
-    r'<'
+    r'<[/]?'
     return t
 
 
