@@ -13,17 +13,37 @@ def p_statement(p):
     p[0] = p[1]
 
 def p_statement_print(p):
-    '''statement : OPEN_LT callFunction EGAL \'print\' args EGAL \'expression\' CLOSE_GT'''
+    '''statement : OPEN_LT callFunction EGAL print args EGAL expression CLOSE_GT'''
     p[0] = AST.PrintNode(p[7])#dois-je compter les apostrophes
+    print(p[7])
 
 
 def p_assign(p):
     ''' assignation : IDENTIFIER EGAL expression '''
     p[0] = AST.AssignNode([AST.TokenNode(p[1]), p[3]])
 
+#for
+def p_for(p):
+    '''structure : OPEN_LT for CLOSE_GT programme OPEN_LT for CLOSE_GT'''
+    #Qu'est-ce que je suis censée mettre après le for ? Et est-ce que c'est possible de faire un for sans le noeud adéquat ?
+
+#while
+def p_while(p):
+    '''structure : OPEN_LT while condition EGAL expression CLOSE_GT programme OPEN_LT while CLOSE_GT'''
+    p[0] = AST.WhileNode(p[5],p[7])
+
+#if-else
+def p_condition(p):
+    '''structure : OPEN_LT if condition EGAL expression CLOSE_GT programme OPEN_LT if CLOSE_GT
+    | OPEN_LT else CLOSE_GT programme OPEN_LT else CLOSE_GT'''
+    p[0]
+
+#def p_fonction(p):
+#    ''''''
+
 
 def p_expression_ltgt(p):
-    '''expression : OPEN_LT expression CLOSE_GT '''
+    '''expression : OPEN_LT expression CLOSE_GT '''#pourquoi pas structure au début ?
     p[0] = p[2]
 
 
@@ -52,7 +72,8 @@ def p_error(p):
 
 precedence = (
     ('left', 'ADD_OP'),
-    ('left', 'MUL_OP')
+    ('left', 'MUL_OP'),
+    ('right', 'UMINUS')
 )
 
 def parse(program):

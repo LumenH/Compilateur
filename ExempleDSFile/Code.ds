@@ -20,7 +20,7 @@
 
   </function>
 
-  <function name='FuncTiti' args='param1, param2' return="integer">
+  <function name='FuncTiti' args='param1, param2' return='integer'>
       <variable name='retValue 'type='Integer' value='param1 + param2'/>
       <return varaible='retValue'/>
   </function>

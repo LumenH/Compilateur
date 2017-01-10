@@ -22,6 +22,7 @@ reserved_words = (
     'step',
     'varRet',
     'else',
+    'print',
 )
 tokens = (
     'NUMBER',
