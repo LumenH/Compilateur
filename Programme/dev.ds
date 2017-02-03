@@ -9,15 +9,16 @@
     </else>
 
     <while condition='toto > 1000'/>
-         <variable name='toto' value='toto + 100' type='integer'/>
+         <variable name='toto' value='toto + 1' type='integer'/>
+         <for iterator='toto' condition='toto < 200' step='2' />
+            <variable name='tutu' value='tutu + 100' type='integer'/>
+        </for>
     </while>
 
-     <variable name='tutu' value='100' type='integer'/>
 
-    <for iterator='toto' condition='tutu < 200' step='2' />
+    <variable name='tutu' value='100' type='integer'/>
+
+    <for iterator='tutu' condition='tutu < 200' step='2' />
          <variable name='tutu' value='tutu + 100' type='integer'/>
     </for>
 </program>
-
-
-

@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+int main(void)
+{
+    toto = 1200.0
+    if(toto != 300)
+    {
+        toto = toto + 300.0
+    }
+    else
+    {
+        toto = toto + 200.0
+    }
+    while(toto > 1000.0)
+    {
+        toto = toto + 1.0
+
+    for(toto; toto < 200.0; toto += 2.0)
+    {
+        tutu = tutu + 100.0
+    }
+    }
+    tutu = 100.0
+
+    for(tutu; tutu < 200.0; tutu += 2.0)
+    {
+        tutu = tutu + 100.0
+    }
+
+    return 0;
+}
