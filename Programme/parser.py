@@ -1,98 +1,123 @@
 import ply.yacc as yacc
-import AST
 from lex import tokens
+import AST
 
 
-def p_programme_statement(p):
-    '''programme : statement'''
+vars = {}
+
+
+# def p_executable(p):
+#     ''' executable : fonction newline '''
+#     p[0] = AST.ExecutableNode(p[1])
+#
+#
+# def p_executable_recursif(p):
+#     ''' executable : function newline executable '''
+#     p[0] = AST.ExecutableNode([p[1]] + p[3].children)
+
+
+def p_program_statement(p):
+    '''   programme : statement '''
     p[0] = AST.ProgramNode(p[1])
 
-def p_statement(p):
-    '''statement : assignation
-        | structure'''
-    p[0] = p[1]
 
-def p_statement_print(p):
-    '''statement : OPEN_LT callFunction EGAL print args EGAL expression CLOSE_GT'''
-    p[0] = AST.PrintNode(p[7])#dois-je compter les apostrophes
-    print(p[7])
+def p_program_recursive(p):
+    ''' programme : statement programme'''
+    p[0] = AST.ProgramNode([p[1]] + p[2].children)
 
-
-def p_assign(p):
-    ''' assignation : IDENTIFIER EGAL expression '''
-    p[0] = AST.AssignNode([AST.TokenNode(p[1]), p[3]])
-
-#for
-def p_for(p):
-    '''structure : OPEN_LT for CLOSE_GT programme OPEN_LT for CLOSE_GT'''
-    #Qu'est-ce que je suis censée mettre après le for ? Et est-ce que c'est possible de faire un for sans le noeud adéquat ?
-
-#while
-def p_while(p):
-    '''structure : OPEN_LT while condition EGAL expression CLOSE_GT programme OPEN_LT while CLOSE_GT'''
-    p[0] = AST.WhileNode(p[5],p[7])
-
-#if-else
-def p_condition(p):
-    '''structure : OPEN_LT if condition EGAL expression CLOSE_GT programme OPEN_LT if CLOSE_GT
-    | OPEN_LT else CLOSE_GT programme OPEN_LT else CLOSE_GT'''
-    p[0]
-
-#def p_fonction(p):
-#    ''''''
-
-
-def p_expression_ltgt(p):
-    '''expression : OPEN_LT expression CLOSE_GT '''#pourquoi pas structure au début ?
-    p[0] = p[2]
-
-
-def p_expression_num_or_var(p):
-    '''expression : NUMBER
+def p_expression_var_or_num(p):
+    ''' expression : NUMBER
         | IDENTIFIER '''
     p[0] = AST.TokenNode(p[1])
 
 
+def p_expression_op(p):
+    ''' expression : expression ADD_OP expression
+            | expression MUL_OP expression
+            | expression CMP_OP expression
+            | expression EQ_OP expression
+            | expression NEQ_OP expression '''
+    p[0] = AST.OpNode(p[2], [p[1], p[3]])
+
+
+def p_statement(p):
+    ''' statement : assignation
+            | structure '''
+    p[0] = p[1]
+
+
+
+def p_statement_newline(p):
+    ''' statement : NEWLINE '''
+    p[0] = AST.Node()
+
+
+def p_assign(p):
+    '''assignation : CHEVRON_OP_VAR NAME EGAL APOSTROPHE expression APOSTROPHE VALUE EGAL APOSTROPHE expression APOSTROPHE TYPE EGAL APOSTROPHE type APOSTROPHE CLOSE_ONELINE '''
+    p[0] = AST.AssignNode([p[5], p[10]])
+
+
 def p_minus(p):
-    ''' expression : ADD_OP expression %prec UMINUS'''
+    ''' expression : ADD_OP expression %prec UMINUS '''
     p[0] = AST.OpNode(p[1], [p[2]])
 
+def p_structure_for(p):
+    ''' structure : OPEN_FOR ITERATOR EGAL APOSTROPHE expression APOSTROPHE CONDITION EGAL APOSTROPHE expression APOSTROPHE STEP EGAL APOSTROPHE expression APOSTROPHE CLOSE_ONELINE programme CLOSE_FOR'''
+    p[0] = AST.ForNode([p[5], p[10], p[15], p[18]])
 
-def p_expression_op(p):
-    '''expression : expression ADD_OP expression
-            | expression MUL_OP expression'''
-    p[0] = AST.OpNode(p[2], [p[1], p[3]])
+
+def p_structure_while(p):
+    ''' structure : OPEN_WHILE CONDITION EGAL APOSTROPHE expression APOSTROPHE CLOSE_ONELINE programme CLOSE_WHILE '''
+    p[0] = AST.WhileNode([p[5], p[8]])
+
+
+def p_type_stat(p):
+    ''' type : VOID
+        | STRING
+        | INTEGER
+        | FLOAT '''
+
+
+def p_condition(p):
+    ''' statement : OPEN_IF CONDITION EGAL APOSTROPHE expression APOSTROPHE CLOSE_ONELINE programme CLOSE_IF'''
+    p[0] = AST.CondNode([p[5], p[8]])
+
+
+def p_condition_else(p):
+    '''statement : OPEN_IF CONDITION EGAL APOSTROPHE expression APOSTROPHE CLOSE_ONELINE programme CLOSE_IF OPEN_ELSE programme CLOSE_ELSE'''
+    p[0] = AST.CondNode([p[5], p[8], p[11]])
+
 
 def p_error(p):
     if p:
         print("Syntax error in line %d" % p.lineno)
         yacc.errok()
     else:
-        print("Sytax error: unexpected end of file!")
+        print("Syntax error : unexpected end of file !")
 
 precedence = (
     ('left', 'ADD_OP'),
     ('left', 'MUL_OP'),
-    ('right', 'UMINUS')
+    ('right', 'UMINUS'),
 )
 
 def parse(program):
     return yacc.parse(program)
 
-yacc.yacc(outputdir='generated')
+yacc.yacc(outputdir='generated', debug=0)
 
 if __name__ == "__main__":
     import sys
-
+    print("Parsing ....")
     prog = open(sys.argv[1]).read()
     result = yacc.parse(prog)
+
     if result:
         print(result)
-
         import os
         graph = result.makegraphicaltree()
-        name = os.path.splitext(sys.argv[1])[0]+'-ast.pdf'
+        name = os.path.splitext(sys.argv[1])[0] + '-ast.pdf'
         graph.write_pdf(name)
-        print("wrote ast to", name)
+        print("Wrote ast to " + name)
     else:
-        print("Parsing returned no result!")
+        print("Parsing return no result!")

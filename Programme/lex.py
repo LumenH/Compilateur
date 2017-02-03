@@ -1,67 +1,62 @@
 import ply.lex as lex
 
-'''Définition des lexèmes utilisés'''
 reserved_words = (
-    'while',
-    'for',
-    'callFunction',
-    'if'
-    'function',
-    'program',
+    #'program',
     'name',
-    'args',
-    'return',
-    'variable',
+    #'function',
+    #'args',
+    #'return',
     'value',
     'type',
-    'void',
-    'integer',
-    'float',
     'iterator',
     'condition',
     'step',
-    'varRet',
-    'else',
-    'print',
+    #'if',
+    #'callFunction',
+    #'varRet',
+    #'else',
+    #'print',
+    'void',
+    'integer',
+    'float'
 )
+
 tokens = (
     'NUMBER',
     'IDENTIFIER',
     'ADD_OP',
     'MUL_OP',
-    'EGAL',
-    'OPEN_LT'#<
-    'CLOSE_GT',#>
+    'EQ_OP',
+    'NEQ_OP',
+    'CMP_OP',
+    'NEWLINE',
+    'STRING',
     'APOSTROPHE',
-    'GUILLEMET'
-)+tuple(map(lambda s: s.upper(), reserved_words))
+    'CHEVRON_OP_VAR',
+    'OPEN_IF',
+    'CLOSE_ONELINE',
+    'CLOSE_IF',
+    'CLOSE_ELSE',
+    'OPEN_ELSE',
+    'EGAL',
+    'OPEN_WHILE',
+    'CLOSE_WHILE',
+    'OPEN_FOR',
+    'CLOSE_FOR'
+) + tuple(map(lambda s: s.upper(), reserved_words))
 
-
-def t_CLOSE_GT(t):
-    r'[/]?>'
-    return t
+literals = '(),'
 
 
 def t_IDENTIFIER(t):
     r'[A-Za-z_]\w*'
     if t.value in reserved_words:
         t.type = t.value.upper()
-        print(t)
     return t
 
 
-def t_OPEN_LT(t):
-    r'<[/]?'
-    return t
-
-
-def t_NUMBER(t):
-    r'\d+(\.\d+)?'
-    try:
-        t.value = float(t.value)
-    except ValueError:
-        print("Line %d: Problem while parsing %s !" % (t.lineno, t.value))
-        t.value = 0
+def t_CLOSE_ONELINE(t):
+    r'\/>'
     return t
 
 
@@ -75,26 +70,94 @@ def t_MUL_OP(t):
     return t
 
 
+def t_CHEVRON_OP_VAR(t):
+    r'\<variable'
+    return t
+
+
+def t_OPEN_WHILE(t):
+    r'\<while'
+    return t
+
+
+def t_CLOSE_WHILE(t):
+    r'\<\/while>'
+    return t
+
+
+def t_OPEN_FOR(t):
+    r'\<for'
+    return t
+
+
+def t_CLOSE_FOR(t):
+    r'\<\/for>'
+    return t
+
+
+def t_OPEN_IF(t):
+    r'\<if'
+    return t
+
+def t_CLOSE_IF(t):
+    r'\<\/if>'
+    return t
+
+def t_OPEN_ELSE(t):
+    r'\<else\/>'
+    return t
+
+def t_CLOSE_ELSE(t):
+    r'\<\/else>'
+    return t
+
+
+def t_CMP_OP(t):
+    r'[<>]'
+    return t
+
+
+def t_EQ_OP(t):
+    r'=='
+    return t
+
+
 def t_EGAL(t):
-    r'[=]'
+    r'='
+    return t
+
+
+def t_NEQ_OP(t):
+    r'!='
+    return t
+
+
+def t_NUMBER(t):
+    r'\d+(\.\d+)?'
+    try:
+        t.value = float(t.value)
+    except ValueError:
+        print ("Line %d: Problem while parsing %s!" % (t.lineno,t.value))
+        t.value = 0
+    return t
+
+
+def t_STRING(t):
+    r'".+"'
     return t
 
 
 def t_APOSTROPHE(t):
-    r'\'[A-Za-z"]+\''
+    r'\''
     return t
 
 
-def t_GUILLEMET(t):
-    r'\"[A-Za-z]+\"'
-    return t
-
-
-def t_newline(t):
+def t_NEWLINE(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
-t_ignore = ' \t'
+
+t_ignore  = ' \t'
 
 
 def t_error(t):
@@ -103,9 +166,10 @@ def t_error(t):
 
 lex.lex()
 
+
 if __name__ == "__main__":
     import sys
-    prog = open(sys.argv[1].read())
+    prog = open(sys.argv[1]).read()
 
     lex.input(prog)
 
@@ -113,4 +177,4 @@ if __name__ == "__main__":
         tok = lex.token()
         if not tok:
             break
-        print("line %d: %s(%s)" % (tok.lineno, tok.type, tok.value))
+        print("Line %d: %s(%s)" % (tok.lineno, tok.type, tok.value))
