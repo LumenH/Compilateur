@@ -102,7 +102,17 @@ class TokenNode(Node):
         
     def __repr__(self):
         return repr(self.tok)
-    
+
+
+class ProgNode(Node):
+    def __init__(self, name, children):
+        self.name = name
+        Node.__init__(self, children)
+
+    def __repr__(self):
+        return self.name
+
+
 class OpNode(Node):
     def __init__(self, op, children):
         Node.__init__(self,children)
@@ -136,6 +146,8 @@ class EntryNode(Node):
 
 class CondNode(Node):
     type = 'if'
+
+
     
 def addToClass(cls):
     ''' Décorateur permettant d'ajouter la fonction décorée en tant que méthode

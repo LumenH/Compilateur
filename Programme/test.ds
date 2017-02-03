@@ -1,21 +1,23 @@
-<variable name='toto' value='1200' type='integer'/>
+<program name=' "Notre splendide programme" '/>
+    <variable name='toto' value='1200' type='integer'/>
 
-<if condition='toto > 300' />
-    <variable name='toto' value='toto + 300' type='integer'/>
-</if>
-<else/>
-    <variable name='toto' value='toto + 200' type='integer'/>
-</else>
+    <if condition='toto > 300' />
+        <variable name='toto' value='toto + 300' type='integer'/>
+    </if>
+    <else/>
+        <variable name='toto' value='toto + 200' type='integer'/>
+    </else>
 
-<while condition='toto > 1000'/>
-     <variable name='toto' value='toto + 100' type='integer'/>
-</while>
+    <while condition='toto > 1000'/>
+         <variable name='toto' value='toto + 100' type='integer'/>
+    </while>
 
- <variable name='tutu' value='100' type='integer'/>
+     <variable name='tutu' value='100' type='integer'/>
 
-<for iterator='toto' condition='toto < 200' step='2' />
-     <variable name='tutu' value='tutu + 100' type='integer'/>
-</for>
+    <for iterator='toto' condition='toto < 200' step='2' />
+         <variable name='tutu' value='tutu + 100' type='integer'/>
+    </for>
+</program>
 
 
 

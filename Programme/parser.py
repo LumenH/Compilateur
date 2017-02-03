@@ -25,6 +25,20 @@ def p_program_recursive(p):
     ''' programme : statement programme'''
     p[0] = AST.ProgramNode([p[1]] + p[2].children)
 
+
+def p_program_state(p):
+    ''' prog : OPEN_PROG NAME EGAL APOSTROPHE STRING APOSTROPHE CLOSE_ONELINE programme CLOSE_PROG'''
+    p[0] = AST.ProgNode(p[5], p[8])
+
+
+
+
+def p_expression_string(p):
+    ''' expression : STRING '''
+    p[0] = AST.TokenNode(p[1])
+
+
+
 def p_expression_var_or_num(p):
     ''' expression : NUMBER
         | IDENTIFIER '''
@@ -42,7 +56,8 @@ def p_expression_op(p):
 
 def p_statement(p):
     ''' statement : assignation
-            | structure '''
+            | structure
+            | prog '''
     p[0] = p[1]
 
 
