@@ -6,14 +6,6 @@ import AST
 vars = {}
 
 
-# def p_executable(p):
-#     ''' executable : fonction newline '''
-#     p[0] = AST.ExecutableNode(p[1])
-#
-#
-# def p_executable_recursif(p):
-#     ''' executable : function newline executable '''
-#     p[0] = AST.ExecutableNode([p[1]] + p[3].children)
 
 
 def p_program_statement(p):
@@ -31,11 +23,9 @@ def p_program_state(p):
     p[0] = AST.ProgNode(p[5], p[8])
 
 
-
 def p_expression_string(p):
     ''' expression : STRING '''
     p[0] = AST.TokenNode(p[1])
-
 
 
 def p_expression_var_or_num(p):
@@ -68,12 +58,13 @@ def p_statement_newline(p):
 
 def p_assign(p):
     '''assignation : CHEVRON_OP_VAR NAME EGAL APOSTROPHE expression APOSTROPHE VALUE EGAL APOSTROPHE expression APOSTROPHE TYPE EGAL APOSTROPHE type APOSTROPHE CLOSE_ONELINE '''
-    p[0] = AST.AssignNode([p[5], p[10]])
+    p[0] = AST.AssignNode([p[15], p[5], p[10]])
 
 
 def p_minus(p):
     ''' expression : ADD_OP expression %prec UMINUS '''
     p[0] = AST.OpNode(p[1], [p[2]])
+
 
 def p_structure_for(p):
     ''' structure : OPEN_FOR ITERATOR EGAL APOSTROPHE expression APOSTROPHE CONDITION EGAL APOSTROPHE expression APOSTROPHE STEP EGAL APOSTROPHE expression APOSTROPHE CLOSE_ONELINE programme CLOSE_FOR'''
@@ -90,6 +81,7 @@ def p_type_stat(p):
         | STRING
         | INTEGER
         | FLOAT '''
+    p[0] = AST.TypeNode(p[1])
 
 
 def p_condition(p):

@@ -127,10 +127,12 @@ class OpNode(Node):
     
 class AssignNode(Node):
     type = '='
-    
+
+
 class PrintNode(Node):
     type = 'print'
-    
+
+
 class WhileNode(Node):
     type = 'while'
 
@@ -146,6 +148,22 @@ class EntryNode(Node):
 
 class CondNode(Node):
     type = 'if'
+
+
+class TypeNode(Node):
+    type = 'Type'
+    def __init__(self, tok):
+        Node.__init__(self)
+        if tok == 'integer':
+            self.tok = "int"
+        elif tok == 'float' or tok == 'void':
+            self.tok = str
+        else:
+            raise ValueError("Le type demandé n'est pas disponible")
+
+
+    def __repr__(self):
+        return repr(self.tok)
 
 
     

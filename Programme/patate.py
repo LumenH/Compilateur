@@ -1,6 +1,10 @@
 import AST
 from AST import addToClass
+from AST import AssignNode
 from functools import reduce
+
+
+variable = dict()
 
 
 @addToClass(AST.ProgramNode)
@@ -29,18 +33,24 @@ def execute(self):
 
 @addToClass(AST.AssignNode)
 def execute(self):
-    print("Ecriture de l'assignation")
-
     file.write("    ")
-    self.children[0].execute()
-    file.write(" = ")
+    if str(self.children[1]) not in variable:
+        variable[str(self.children[1])] = self.children[0].tok
+        self.children[0].execute()
+
     self.children[1].execute()
+    file.write(" = ")
+    self.children[2].execute()
 
     file.write("\n")
 
 @addToClass(AST.WhileNode)
 def execute(self):
-    print("Ecriture d'une while")
+    var = set()
+    for c in self.children[1].children:
+        if isinstance(c, AST.AssignNode):
+            if str(c.children[1]) not in variable:
+                var.add(str(c.children[1]))
 
     file.write("\n    " + self.type + "(")
     self.children[0].execute()
@@ -51,9 +61,19 @@ def execute(self):
     file.write("    }\n")
 
 
+    for element in var:
+        variable.pop(element)
+    var.clear()
+
+
 @addToClass(AST.ForNode)
 def execute(self):
-    print("Ecriture d'une for")
+    var = set()
+    for c in self.children[1].children:
+        if isinstance(c, AST.AssignNode):
+            if str(c.children[1]) not in variable:
+                var.add(str(c.children[1]))
+
     file.write("\n    " + self.type + "(")
     self.children[0].execute()
     file.write("; ")
@@ -69,10 +89,22 @@ def execute(self):
     self.children[3].execute()
     file.write("    }\n")
 
+    for element in var:
+        variable.pop(element)
+    var.clear()
+
 
 @addToClass(AST.CondNode)
 def execute(self):
-    print("Ecriture d'une condition")
+    var = set()
+    for c in self.children[1].children:
+        if isinstance(c, AST.AssignNode):
+            print(c.children[1])
+            if str(c.children[1]) not in variable:
+                var.add(str(c.children[1]))
+
+    print("Start cond var = " + str(variable))
+
     a = str(self.children[0].children[0])
     b = str(self.children[0].children[1])
     if a[0] == "'":
@@ -94,19 +126,31 @@ def execute(self):
     file.write("    {\n")
     file.write("    ")
     self.children[1].execute()
-    file.write("    }")
 
     if len(self.children) > 2:
+
+        for c in self.children[2].children:
+            if isinstance(c, AST.AssignNode):
+                if str(c.children[1]) not in variable:
+                    var.add(str(c.children[1]))
+
+        file.write("    }")
         file.write("\n    else\n")
         file.write("    {\n")
         file.write("    ")
         self.children[2].execute()
-        file.write("    }")
+
+    file.write("    }\n")
+
+    for element in var:
+        variable.pop(element)
+    var.clear()
+    print("End cond var = " + str(variable))
+
 
 
 @addToClass(AST.OpNode)
 def execute(self):
-    print("Ajout d'une operation")
     self.children[0].execute()
     file.write(" " + self.op + " ")
     self.children[1].execute()
@@ -115,8 +159,12 @@ def execute(self):
 
 @addToClass(AST.TokenNode)
 def execute(self):
-    print("Execution token")
     file.write(str(self.tok))
+
+
+@addToClass(AST.TypeNode)
+def execute(self):
+    file.write(str(self.tok) + " ")
 
 
 if __name__ == "__main__":
