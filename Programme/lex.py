@@ -2,18 +2,17 @@ import ply.lex as lex
 
 reserved_words = (
     'name',
+    'entry',
     #'function',
-    #'args',
+    'args',
     #'return',
     'value',
     'type',
     'iterator',
     'condition',
     'step',
-    #'callFunction',
     #'varRet',
-    #'else',
-    #'print',
+    'print',
     'void',
     'integer',
     'float'
@@ -42,7 +41,8 @@ tokens = (
     'OPEN_FOR',
     'CLOSE_FOR',
     'OPEN_PROG',
-    'CLOSE_PROG'
+    'CLOSE_PROG',
+    'OPEN_CALL'
 ) + tuple(map(lambda s: s.upper(), reserved_words))
 
 literals = '(),'
@@ -73,6 +73,12 @@ def t_MUL_OP(t):
 def t_CHEVRON_OP_VAR(t):
     r'\<variable'
     return t
+
+
+def t_OPEN_CALL(t):
+    r'\<callFunction'
+    return t
+
 
 def t_OPEN_PROG(t):
     r'\<program'

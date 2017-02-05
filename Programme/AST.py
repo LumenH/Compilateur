@@ -133,6 +133,7 @@ class PrintNode(Node):
     type = 'print'
 
 
+
 class WhileNode(Node):
     type = 'while'
 
@@ -143,8 +144,7 @@ class ForNode(Node):
     
 class EntryNode(Node):
     type = 'ENTRY'
-    def __init__(self):
-        Node.__init__(self, None)
+
 
 class CondNode(Node):
     type = 'if'

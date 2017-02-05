@@ -2,27 +2,27 @@
 
 int main(void)
 {
-    int toto = 0.0
+    int toto = 0.0;
 
     while(toto < 1000.0)
     {
-        toto = toto + 1.0
-        if(toto != 300)
-        {
-            toto = toto + 300.0
-        }
-        else
-        {
-            int tutu = toto + 200.0
-        }
-        int tutu = toto + 200.0
-
-        for(toto; tutu < 200.0; toto += 2.0)
-        {
-            tutu = tutu + 100.0
-        }
+        toto = "poil";
+    if(toto != 300)
+    {
+        toto = toto + 300.0;
     }
-    int tutu = 200.0
+    else
+    {
+        int tutu = toto + 200.0;
+    }
+    int tutu = toto + 200.0;
+
+    for(tata = 0 ; tutu < 200.0; tata += 2.0)
+    {
+        tutu = tutu + 100.0;
+    }
+    }
+    int tutu = 200.0;
 
     return 0;
 }

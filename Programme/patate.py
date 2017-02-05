@@ -42,7 +42,7 @@ def execute(self):
     file.write(" = ")
     self.children[2].execute()
 
-    file.write("\n")
+    file.write(";\n")
 
 @addToClass(AST.WhileNode)
 def execute(self):
@@ -76,6 +76,8 @@ def execute(self):
 
     file.write("\n    " + self.type + "(")
     self.children[0].execute()
+    if str(self.children[0]) not in variable:
+        file.write(" = 0 ")
     file.write("; ")
     self.children[1].execute()
     file.write("; ")
@@ -99,11 +101,8 @@ def execute(self):
     var = set()
     for c in self.children[1].children:
         if isinstance(c, AST.AssignNode):
-            print(c.children[1])
             if str(c.children[1]) not in variable:
                 var.add(str(c.children[1]))
-
-    print("Start cond var = " + str(variable))
 
     a = str(self.children[0].children[0])
     b = str(self.children[0].children[1])
@@ -145,8 +144,6 @@ def execute(self):
     for element in var:
         variable.pop(element)
     var.clear()
-    print("End cond var = " + str(variable))
-
 
 
 @addToClass(AST.OpNode)
@@ -156,10 +153,10 @@ def execute(self):
     self.children[1].execute()
 
 
-
 @addToClass(AST.TokenNode)
 def execute(self):
     file.write(str(self.tok))
+
 
 
 @addToClass(AST.TypeNode)

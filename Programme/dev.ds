@@ -1,25 +1,35 @@
 <program name=' "Notre splendide programme" '/>
-    <variable name='toto' value='0' type='integer'/>
+    <variable name='toto' value='-2' type='integer'/>
+    <callFunction name='print' args='"Entrée une valeur entière: "' />
+    <callFunction name='entry' args='"%d", &toto"' />
+    <callFunction name='print' args='"\n"' />
 
     <while condition='toto < 1000'/>
 
         <variable name='toto' value='toto + 1' type='integer'/>
 
-        <if condition='toto != 300' />
-            <variable name='toto' value='toto + 300' type='integer'/>
+        <if condition='toto > 300' />
+            <variable name='toto' value='toto + 300 ' type='integer'/>
         </if>
         <else/>
-            <variable name='tutu' value='toto + 200' type='integer'/>
+            <variable name='tutu' value='toto + 200 ' type='integer'/>
         </else>
 
-        <variable name='tutu' value='toto + 200' type='integer'/>
-
-        <for iterator='toto' condition='tutu < 200' step='2' />
-            <variable name='tutu' value='tutu + 100' type='integer'/>
+        <variable name='tutu' value='300' type='integer'/>
+        <callFunction name='print' args='"Ma variable tutu = %d", tutu"'/>
+        <for iterator='tutu' condition='tutu > 200' step='-2' />
+            <variable name='tata' value='tata + 100' type='integer'/>
+            <callFunction name='print' args='"Ma variable tutu = %d", tutu"'/>
+            <callFunction name='print' args='"\n"' />
         </for>
     </while>
 
     <variable name='tutu' value='200' type='integer'/>
 
-
+    <callFunction name='print' args='"Ma variable toto = %d", toto"'/>
+    <callFunction name='print' args='"\n"'/>
+    <callFunction name='print' args='"Ma variable tutu = %d", tutu"'/>
+    <callFunction name='print' args='"\n"'/>
+    <callFunction name='print' args='"1+2=3"'/>
+    <callFunction name='print' args='"\n"'/>
 </program>

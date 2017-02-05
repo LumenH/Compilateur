@@ -14,9 +14,11 @@
 
      <variable name='tutu' value='100' type='integer'/>
 
-    <for iterator='toto' condition='tutu < 200' step='2' />
+    <for iterator='tutu' condition='tutu < 200' step='2' />
          <variable name='tutu' value='tutu + 100' type='integer'/>
     </for>
+
+    <callFunction name='print' args='"Mon print"/>
 </program>
 
 

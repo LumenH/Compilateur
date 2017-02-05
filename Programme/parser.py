@@ -49,6 +49,15 @@ def p_statement(p):
             | prog '''
     p[0] = p[1]
 
+def p_statement_print(p):
+    ''' statement : OPEN_CALL NAME EGAL APOSTROPHE PRINT APOSTROPHE ARGS EGAL APOSTROPHE expression APOSTROPHE CLOSE_ONELINE'''
+    p[0] = AST.PrintNode(p[10])
+
+
+def p_statement_entry(p):
+    ''' statement : OPEN_CALL NAME EGAL APOSTROPHE ENTRY APOSTROPHE ARGS EGAL APOSTROPHE expression APOSTROPHE CLOSE_ONELINE'''
+    p[0] = AST.EntryNode(p[10])
+
 
 
 def p_statement_newline(p):
